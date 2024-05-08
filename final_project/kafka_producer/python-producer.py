@@ -27,7 +27,10 @@ def gen_data():
     prod = KafkaProducer(bootstrap_servers=kafka_nodes, value_serializer=lambda x:dumps(x).encode('utf-8'))
     my_data = {
         'team': random.choice(teams),
-        'news': generate_nba_news()
+        'news': generate_nba_news(),
+        # 'timestamp': ,
+        # 'action': []
+
     }
     print(my_data)
     prod.send(topic=myTopic, value=my_data)

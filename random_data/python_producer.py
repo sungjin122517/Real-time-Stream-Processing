@@ -1,29 +1,42 @@
-import datetime
-import time
 import random
 import schedule
-from json import dumps
+import time
+
+from time import sleep
+from kafka import KafkaProducer, KafkaConsumer
 from generate_news import generate_nba_news
+from json import dumps
 
-from faker import Faker
-from kafka import KafkaProducer
-
+# Kafka broker configuration
 kafka_nodes = "kafka:9092"
-myTopic = "weather"
 
-def gen_data():
-    faker = Faker()
+# Topic for NBA news
+nba_news_topic = 'nba-news'
 
-    prod = KafkaProducer(bootstrap_servers=kafka_nodes, value_serializer=lambda x:dumps(x).encode('utf-8'))
-    my_data = {'city': faker.city(), 'temperature': random.uniform(10.0, 110.0)}
-    print(my_data)
-    prod.send(topic=myTopic, value=my_data)
+# Create Kafka producer
+#producer = KafkaProducer(bootstrap_servers=kafka_nodes)
+prod = KafkaProducer(bootstrap_servers=kafka_nodes, value_serializer=lambda x:dumps(x).encode('utf-8'))
 
-    prod.flush()
+# Function to publish NBA news to Kafka topic
+def publish_nba_news():
+    while True:
+        news = generate_nba_news()
+        #prod.send(nba_news_topic, news.encode('utf-8'))
+        prod.send(topic=nba_news_topic, value=news)
+        print(f"Published: {news}")
+        sleep(5)  # Adjust the interval as needed
+
+# # Create Kafka consumer
+# consumer = KafkaConsumer(nba_news_topic, bootstrap_servers=bootstrap_servers)
+
+# # Function to consume NBA news from Kafka topic
+# def consume_nba_news():
+#     for message in consumer:
+#         print(f"Received: {message.value.decode('utf-8')}")
 
 if __name__ == "__main__":
-    gen_data()
-    schedule.every(10).seconds.do(gen_data)
+    publish_nba_news()
+    schedule.every(10).seconds.do(publish_nba_news)
 
     while True:
         schedule.run_pending()

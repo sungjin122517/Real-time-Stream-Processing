@@ -17,15 +17,15 @@ services:
 
   kafka:
     image: confluentinc/cp-kafka
+    hostname: kafka
     depends_on:
       - zookeeper
+    ports:
+      - "9092:9092"
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ADVERTISED_HOST_NAME: 0.0.0.0
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:32181
+      KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
-      JMX_PORT: 9999
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:32181"
     networks:
       bridge:
         aliases:
@@ -40,4 +40,4 @@ services:
       ZOOKEEPER_SERVER: "zookeeper:32181"
       PRODUCER_INTERVAL: 100
     networks:
-      - bridge
+    - bridge

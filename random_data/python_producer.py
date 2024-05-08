@@ -1,6 +1,7 @@
 import random
 import schedule
 import time
+import socket
 
 from time import sleep
 from kafka import KafkaProducer, KafkaConsumer
@@ -12,6 +13,10 @@ kafka_nodes = "kafka:9092"
 
 # Topic for NBA news
 nba_news_topic = 'nba-news'
+
+kafka_ip = socket.gethostbyname("kafka")
+kafka_ip_add =  f"{kafka_ip}:9092"
+print(kafka_ip_add)
 
 # Create Kafka producer
 #producer = KafkaProducer(bootstrap_servers=kafka_nodes)

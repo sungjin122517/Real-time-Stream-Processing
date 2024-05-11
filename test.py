@@ -1,8 +1,6 @@
 import json
 import random
 import time
-
-from confluent_kafka import SerializingProducer
 from datetime import datetime
 from json import dumps
 
@@ -74,43 +72,3 @@ def delivery_report(err, msg):
     else:
         print(f"Message delivered to {msg.topic} [{msg.partition()}]")
         
-
-def main():
-    topic = 'game_updates'
-    producer = SerializingProducer({
-        'bootstrap.servers': 'localhost:9092'
-    })
-
-    curr_time = datetime.now()
-
-    # Only active for 120 seconds
-    while (datetime.now() - curr_time).seconds < 120:
-        try:
-            updates = publish_nba_news()
-            print(updates)
-
-            producer.produce(topic,
-                            key=updates['player'],
-                            value=json.dumps(updates),
-                            on_delivery=delivery_report
-                            )
-            # To ensure data gets delivered before another one gets sent
-            producer.poll(0)
-
-            # wait for 5 seconds before sending the next update
-            time.sleep(3)
-        except BufferError:
-            print("Buffer full! Waiting...")
-            time.sleep(1)
-        except Exception as e:
-            print(e)
-
-
-if __name__ == "__main__":
-    main()
-    # publish_nba_news()
-    # schedule.every(10).seconds.do(publish_nba_news)
-
-    # while True:
-    #     schedule.run_pending()
-    #     time.sleep(0.5)

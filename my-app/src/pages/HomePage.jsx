@@ -2,6 +2,7 @@ import React from 'react';
 import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import RealTimeGraph from '../components/RealTimeGraph';
+import ApexChart from '../components/TestGraph';
 import { Box } from "@mui/material";
 
 function HomePage() {
@@ -18,7 +19,7 @@ function HomePage() {
             backgroundColor: '#FFFFFF', // White background for the graph
           }}
         >
-          <RealTimeGraph />
+          <ApexChart />
         </Box>
       </div>
     </div>

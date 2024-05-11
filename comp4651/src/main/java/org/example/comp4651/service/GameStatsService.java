@@ -20,8 +20,7 @@ public class GameStatsService {
 
     public void adjustForRank(int gameStatId) {
         GameStats gameStats = gameStatsRepository.findById(gameStatId);
-//        Optional<Team> homeTeam = teamRepository.findById(homeId);
-//        Optional<Team> awayTeam = teamRepository.findById(awayId);
+
         int homeId = gameStats.getHomeTeam().getId();
         int awayId = gameStats.getAwayTeam().getId();
 
@@ -127,6 +126,12 @@ public class GameStatsService {
         away = (away / sum) * 100;
         home = Math.max(0, Math.min(100, home));
         away = Math.max(0, Math.min(100, away));
+
+        String homeStr = String.format("%.2f", home);
+        String awayStr = String.format("%.2f", away);
+
+        home = Double.parseDouble(homeStr);
+        away = Double.parseDouble(awayStr);
 
         return List.of(home, away);
     }

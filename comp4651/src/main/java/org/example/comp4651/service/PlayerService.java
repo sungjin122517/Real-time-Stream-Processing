@@ -13,32 +13,45 @@ public class PlayerService {
 
     private final PlayerRepository playerRepository;
 
-//    public List<Player> getTop3PlayersByGoals() {
-//        return playerRepository.findTop3ByOrderByGoalDesc();
-//    }
-
-    public void modifyImportanceValue(String name, double importanceValue) {
+    public void modifyImportanceValue(String name) {
         Player player = playerRepository.findByName(name);
+        double foulPenalty = 0.5;
+        double goalBonus = 0.5;
+
+        int foul = player.getFoul();
+        int goal = player.getGoal();
+        double importanceValue = player.getImportanceValue() + goal * goalBonus - foul * foulPenalty;
+
         player.setImportanceValue(importanceValue);
         this.playerRepository.save(player);
     }
 
-    public void modifyFoul(String name, int foul) {
+    public void modifyFoul(String name) {
         Player player = playerRepository.findByName(name);
+
+        // increment foul count of player
+        int foul = player.getFoul() + 1;
+
         player.setFoul(foul);
         this.playerRepository.save(player);
     }
 
     public void modifyPlayingStatus(String name) {
         Player player = playerRepository.findByName(name);
+
         // get playing status of player
         boolean playing = player.isPlaying();
+
         player.setPlaying(!playing);
         this.playerRepository.save(player);
     }
 
-    public void modifyGoal(String name, int goal) {
+    public void modifyGoal(String name, int score) {
         Player player = playerRepository.findByName(name);
+
+        // increment goal count of player
+        int goal = player.getGoal() + score;
+
         player.setGoal(goal);
         this.playerRepository.save(player);
     }

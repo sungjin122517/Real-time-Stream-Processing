@@ -3,11 +3,12 @@ import random
 import time
 
 from confluent_kafka import SerializingProducer
+from confluent_kafka import Producer
 from datetime import datetime
 from json import dumps
 
 # Kafka broker configuration
-kafka_nodes = "kafka:9092"
+kafka_nodes = "broker:9092"
 
 # Topic for NBA news
 nba_news_topic = 'nba-news'
@@ -32,7 +33,7 @@ boston_player_info = {
 
 NY_team_info = {
     "team_name": "New York knicks",
-    "rank": 1,
+    "rank": 4,
     "team_players": ["Julius Randle", "Josh Hart", "Jalen Brunson", "Donte Divincenzo", "OG Anunoby"]
 }
 NY_player_info = {
@@ -46,12 +47,17 @@ NY_player_info = {
     }
 }
 
-actions = ["committed a foul against", "blocked the shot of", "turned the ball over to", "Scored 2 points against","Scored 2 points against","Scored 2 points against","Scored 3 points against", "Scored 3 points against" ]
+boston_players = ["Jayson Tatum", "Jaylen Brown", "Marcus Smart", "Al Horford"]
+
+knicks_players = ["Julius Randle", "RJ Barrett", "Jalen Brunson", "donte divincenzo"]
+
+actions = ["committed a foul against", "blocked the shot of", "turned the ball over to"]
+
 
 # Generate random news
 def generate_nba_news():
-    player1 = random.choice(boston_team_info["team_players"])
-    player2 = random.choice(NY_player_info["team_players"])
+    player1 = random.choice(boston_players)
+    player2 = random.choice(knicks_players)
     action = random.choice(actions)
 
     return f"{player1} {action} {player2}"
@@ -78,7 +84,7 @@ def delivery_report(err, msg):
 def main():
     topic = 'game_updates'
     producer = SerializingProducer({
-        'bootstrap.servers': 'localhost:9092'
+        'bootstrap.servers': 'broker:29092'
     })
 
     curr_time = datetime.now()
@@ -87,7 +93,7 @@ def main():
     while (datetime.now() - curr_time).seconds < 120:
         try:
             updates = publish_nba_news()
-            print(updates)
+            print("JASD")
 
             producer.produce(topic,
                             key=updates['player'],
@@ -96,9 +102,8 @@ def main():
                             )
             # To ensure data gets delivered before another one gets sent
             producer.poll(0)
-
-            # wait for 5 seconds before sending the next update
             time.sleep(3)
+            
         except BufferError:
             print("Buffer full! Waiting...")
             time.sleep(1)

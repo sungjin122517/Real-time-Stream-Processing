@@ -1,5 +1,0 @@
-CREATE TABLE news (
-    id SERIAL PRIMARY KEY,
-    team VARCHAR (255) NOT NULL,
-    news VARCHAR (255) NOT NULL
-);

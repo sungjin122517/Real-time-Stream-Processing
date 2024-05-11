@@ -15,12 +15,14 @@ public class PlayerService {
 
     public void modifyImportanceValue(String name) {
         Player player = playerRepository.findByName(name);
-        double foulPenalty = 0.5;
-        double goalBonus = 0.5;
+        double foulPenalty = 0.1;
+        double goalBonus = 0.2;
 
         int foul = player.getFoul();
         int goal = player.getGoal();
         double importanceValue = player.getImportanceValue() + goal * goalBonus - foul * foulPenalty;
+        importanceValue = Math.max(0, importanceValue);
+        importanceValue = Math.min(1, importanceValue);
 
         player.setImportanceValue(importanceValue);
         this.playerRepository.save(player);

@@ -27,7 +27,7 @@ public class GameStatsService {
         double homeRank = teamRepository.findById(homeId).getRank();
         double awayRank = teamRepository.findById(awayId).getRank();
         double rankDiff = homeRank - awayRank;
-        double adjustment = rankDiff * (-0.5);
+        double adjustment = rankDiff * (-2.5);
 
         double homeWinProb = gameStats.getHomeWinProb() + adjustment;
         double awayWinProb = gameStats.getAwayWinProb() - adjustment;
@@ -58,7 +58,7 @@ public class GameStatsService {
         double awayImportance = awayPlayers.stream().filter(Player::isPlaying).mapToDouble(Player::getImportanceValue).sum();
 
         double importanceDiff = homeImportance - awayImportance;
-        double adjustment = importanceDiff * 0.1;
+        double adjustment = importanceDiff * 10;
 
         double homeWinProb = gameStats.getHomeWinProb() + adjustment;
         double awayWinProb = gameStats.getAwayWinProb() - adjustment;
@@ -81,7 +81,7 @@ public class GameStatsService {
         int awayScore = gameStats.getAwayScore();
 
         double scoreDiff = homeScore - awayScore;
-        double adjustment = scoreDiff * 2;
+        double adjustment = scoreDiff * 0.8;
 
         double homeWinProb = gameStats.getHomeWinProb() + adjustment;
         double awayWinProb = gameStats.getAwayWinProb() - adjustment;

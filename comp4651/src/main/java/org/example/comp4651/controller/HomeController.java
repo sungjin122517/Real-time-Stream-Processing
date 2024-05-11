@@ -1,7 +1,6 @@
 package org.example.comp4651.controller;
 
-import org.example.comp4651.entity.Player;
-import org.example.comp4651.service.GameService;
+import org.example.comp4651.WinProbabilityResponse;
 import org.example.comp4651.service.GameStatsService;
 import org.example.comp4651.service.PlayerService;
 import org.example.comp4651.service.TeamService;
@@ -17,18 +16,18 @@ public class HomeController {
 
     private final PlayerService playerService;
     private final TeamService teamService;
-    private final GameService gameService;
     private final GameStatsService gameStatsService;
 
-    public HomeController(PlayerService playerService, TeamService teamService, GameService gameService, GameStatsService gameStatsService) {
+    public HomeController(PlayerService playerService, TeamService teamService, GameStatsService gameStatsService) {
         this.playerService = playerService;
         this.teamService = teamService;
-        this.gameService = gameService;
         this.gameStatsService = gameStatsService;
     }
 
     @GetMapping
-    public List<Player> getTop3PlayersByGoals() {
-        return playerService.getTop3PlayersByGoals();
+    public WinProbabilityResponse getWinProbabilities() {
+        List<Double> winProbabilities = gameStatsService.getWinProb(1);
+        return new WinProbabilityResponse(winProbabilities.get(0), winProbabilities.get(1));
     }
+
 }

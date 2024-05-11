@@ -14,5 +14,6 @@ public interface PlayerRepository extends JpaRepository<Player, Integer>{
     // find players of top 3 importance value
     List<Player> findTop3ByOrderByImportanceValueDesc();
 
-    // find sum of importance value who is playing
+    // find players by team id
+    List<Player> findByTeamId(Integer teamId);
 }

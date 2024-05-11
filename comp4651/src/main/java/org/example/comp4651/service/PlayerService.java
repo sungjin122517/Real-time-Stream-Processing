@@ -13,9 +13,9 @@ public class PlayerService {
 
     private final PlayerRepository playerRepository;
 
-    public List<Player> getTop3PlayersByGoals() {
-        return playerRepository.findTop3ByOrderByGoalDesc();
-    }
+//    public List<Player> getTop3PlayersByGoals() {
+//        return playerRepository.findTop3ByOrderByGoalDesc();
+//    }
 
     public void modifyImportanceValue(String name, double importanceValue) {
         Player player = playerRepository.findByName(name);
@@ -34,6 +34,12 @@ public class PlayerService {
         // get playing status of player
         boolean playing = player.isPlaying();
         player.setPlaying(!playing);
+        this.playerRepository.save(player);
+    }
+
+    public void modifyGoal(String name, int goal) {
+        Player player = playerRepository.findByName(name);
+        player.setGoal(goal);
         this.playerRepository.save(player);
     }
 

@@ -57,7 +57,7 @@ def main():
     curr_time = datetime.now()
 
     # Only active for 120 seconds
-    while (datetime.now() - curr_time).seconds < 120:
+    while (datetime.now() - curr_time).seconds < 1200:
         try:
             updates = publish_nba_news()
             print(updates)

@@ -3,6 +3,8 @@ import random
 import time
 
 from confluent_kafka import SerializingProducer
+from confluent_kafka.admin import AdminClient, NewTopic
+
 from confluent_kafka import Producer
 from datetime import datetime
 from json import dumps
@@ -51,7 +53,10 @@ boston_players = ["Jayson Tatum", "Jaylen Brown", "Derrick White", "Jrue Holiday
 
 knicks_players = ["Julius Randle", "Josh Hart", "Jalen Brunson", "Donte Divincenzo", "OG Anunoby"]
 
-actions = ["committed a foul against", "blocked the shot of", "turned the ball over to", "Scored 2 points against", "Scored 2 points against","Scored 2 points against", "Scored 3 points against", "Scored 3 points against"]
+actions = [" blocked the shot of ", " committed a foul against ", " turned the ball over to ",
+           " scored 2 points against ", " scored 2 points against ", " scored 2 points against ",
+           " scored 3 points against ", " scored 3 points against "]
+
 
 # Function to send team and player information
 def send_initial_information(producer, topic, team_info, player_info):
@@ -69,39 +74,47 @@ def send_initial_information(producer, topic, team_info, player_info):
         producer.produce(topic, key=player, value=json.dumps(player_data))
         print(f"Sent player information for {player}")
 
+
 # Generate random news
 def generate_nba_news():
     # Randomly choose between the two possibilities
+    player1 = ''
     option = random.randint(1, 2)
+    situation = random.randint(0, 7)
+    team = teams[option-1]
+    text = ''
 
     if option == 1:
         player1 = random.choice(boston_players)
-        player2 = random.choice(knicks_players)
-    else:
+        text = player1 + actions[situation]
+        if (0 <= situation) & (situation <= 2):
+            text += random.choice(knicks_players)
+        else:
+            text += teams[1]
+    elif option == 2:
         player1 = random.choice(knicks_players)
-        player2 = random.choice(boston_players)
+        text = player1 + actions[situation]
+        if (0 <= situation) & (situation <= 2):
+            text += random.choice(knicks_players)
+        else:
+            text += teams[0]
+        situation += 8
 
-    action = random.choice(actions)
 
-    #return f"{player1} {action} {player2}"
+    # action = random.choice(actions)
+
     return {
-        'player1': player1,
-        'player2': player2,
-        'action': action,
-        'updateTime': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
+        'gameId': '1', # game between Boston & NY
+        'player': player1,
+        'team': team,
+        # 'option': option,
+        'situation': situation,
+        'text': text,
+        # 'team_home': '1',
+        # 'team_away': '2',
+        'updateTime': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f%z')
     }
 
-
-# Create Kafka producer
-# Function to publish NBA news to Kafka topic
-def publish_nba_news():
-    return {
-        'player': random.choice(teams),
-        'text': generate_nba_news(),
-        'updateTime': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S.%f%z'),
-        # 'team' : x
-        # 'scenario' : y
-    }
 
 def delivery_report(err, msg):
     if err is not None:
@@ -110,17 +123,22 @@ def delivery_report(err, msg):
         print(f"Message delivered to {msg.topic} [{msg.partition()}]")
 
 
+
+
 def main():
     topic = 'game_updates'
     producer = SerializingProducer({
         'bootstrap.servers': 'localhost:9092'
     })
 
+    admin_client = AdminClient({'bootstrap.servers': 'localhost:9092'})
+    admin_client.delete_topics([topic])
+
     curr_time = datetime.now()
 
     # Initial setup
-    send_initial_information(producer, topic, boston_team_info, boston_player_info)
-    send_initial_information(producer, topic, NY_team_info, NY_player_info)
+    # send_initial_information(producer, 'boston_team', boston_team_info, boston_player_info)
+    # send_initial_information(producer, 'ny_team', NY_team_info, NY_player_info)
 
     # Only active for 120 seconds
     while (datetime.now() - curr_time).seconds < 1200:
@@ -129,10 +147,10 @@ def main():
             print(updates)
 
             producer.produce(topic,
-                            key=updates['player1'],
-                            value=json.dumps(updates),
-                            on_delivery=delivery_report
-                            )
+                             key=updates['player'],
+                             value=json.dumps(updates),
+                             on_delivery=delivery_report
+                             )
             # To ensure data gets delivered before another one gets sent
             producer.poll(0)
             time.sleep(3)

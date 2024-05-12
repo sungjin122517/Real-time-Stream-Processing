@@ -3,6 +3,7 @@ import Sidebar from '../components/Sidebar';
 import Header from '../components/Header';
 import AwayTeamChart from '../components/AwayGraph';
 import HomeTeamChart from '../components/HomeGraph';
+import ParentComponent from '../components/ParentComponent';
 import { Box } from "@mui/material";
 
 function HomePage() {
@@ -19,7 +20,7 @@ function HomePage() {
             backgroundColor: '#FFFFFF', // White background for the graph
           }}
         >
-            <HomeTeamChart />
+            <ParentComponent />
         </Box>
       </div>
     </div>

@@ -123,7 +123,7 @@ def main():
     send_initial_information(producer, topic, NY_team_info, NY_player_info)
 
     # Only active for 120 seconds
-    while (datetime.now() - curr_time).seconds < 120:
+    while (datetime.now() - curr_time).seconds < 1200:
         try:
             updates = generate_nba_news()
             print(updates)

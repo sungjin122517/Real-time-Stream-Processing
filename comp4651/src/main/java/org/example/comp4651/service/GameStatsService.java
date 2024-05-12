@@ -96,12 +96,12 @@ public class GameStatsService {
         winProbabilityRepository.save(winProbability);
     }
 
-    public void adjustForScore(int gameStatId) {
-        GameStats gameStats = gameStatsRepository.findById(gameStatId);
+    public void adjustForScore(GameStats gameStat) {
+//        GameStats gameStats = gameStatsRepository.findById(gameStatId);
         WinProbability firstWinProbability = winProbabilityRepository.findFirstByOrderByIdAsc();
 
-        int homeScore = gameStats.getHomeScore();
-        int awayScore = gameStats.getAwayScore();
+        int homeScore = gameStat.getHomeScore();
+        int awayScore = gameStat.getAwayScore();
 
         double scoreDiff = homeScore - awayScore;
         double adjustment = scoreDiff * 0.8;
@@ -121,12 +121,12 @@ public class GameStatsService {
     }
 
 
-    public void adjustForFouls(int gameStatId) {
-        GameStats gameStats = gameStatsRepository.findById(gameStatId);
+    public void adjustForFouls(GameStats gameStat) {
+//        GameStats gameStats = gameStatsRepository.findById(gameStatId);
         WinProbability firstWinProbability = winProbabilityRepository.findFirstByOrderByIdAsc();
 
-        int homeFouls = gameStats.getHomeFouls();
-        int awayFouls = gameStats.getAwayFouls();
+        int homeFouls = gameStat.getHomeFouls();
+        int awayFouls = gameStat.getAwayFouls();
 
         double foulsDiff = homeFouls - awayFouls;
         double adjustment = foulsDiff * (-0.5);

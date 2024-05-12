@@ -113,7 +113,7 @@ def delivery_report(err, msg):
 def main():
     topic = 'game_updates'
     producer = SerializingProducer({
-        'bootstrap.servers': 'localhost:9092'
+        'bootstrap.servers': 'broker:29092'
     })
 
     curr_time = datetime.now()

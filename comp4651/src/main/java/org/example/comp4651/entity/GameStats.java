@@ -15,7 +15,7 @@ public class GameStats {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "home_team_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GameStats_HomeTeam"))
+    @JoinColumn(name = "team_home", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GameStats_HomeTeam"))
     private Team homeTeam;
 
 //    @Column(name = "home_win_prob")
@@ -24,14 +24,14 @@ public class GameStats {
     @Column(name = "home_score")
     private int homeScore;
 
-    @Column(name = "home_fouls")
+    @Column(name = "home_foul")
     private int homeFouls;
 
 //    @Column(name = "home_importance_value")
 //    private double homeImportanceValue;
 
     @ManyToOne
-    @JoinColumn(name = "away_team_id", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GameStats_AwayTeam"))
+    @JoinColumn(name = "team_away", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GameStats_AwayTeam"))
     private Team awayTeam;
 
 //    @Column(name = "away_win_prob")
@@ -40,12 +40,12 @@ public class GameStats {
     @Column(name = "away_score")
     private int awayScore;
 
-    @Column(name = "away_fouls")
+    @Column(name = "away_foul")
     private int awayFouls;
 
 //    @Column(name = "away_importance_value")
 //    private double awayImportanceValue;
 
-    @Column(name = "event_type")
-    private int eventType;
+    @Column(name = "situation")
+    private int situation;
 }

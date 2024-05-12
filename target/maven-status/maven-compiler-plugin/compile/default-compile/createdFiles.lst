@@ -1,0 +1,4 @@
+Deserializer/JSONValueDeserializationSchema.class
+dto/Update.class
+FlinkNBA/DataStreamJob.class
+dto/Gamestat.class

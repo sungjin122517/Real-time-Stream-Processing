@@ -153,7 +153,7 @@ def main():
                              )
             # To ensure data gets delivered before another one gets sent
             producer.poll(0)
-            time.sleep(3)
+            time.sleep(10)
 
         except BufferError:
             print("Buffer full! Waiting...")

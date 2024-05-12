@@ -1,0 +1,36 @@
+package com.example.demo;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Random;
+
+@SpringBootApplication
+@RestController
+public class BackendApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(BackendApplication.class, args);
+    }
+
+    @GetMapping("/api/winningProbability")
+    public WinningProbability getWinningProbability() {
+        // Generate a random winning probability (between 0 and 100)
+        int probability = new Random().nextInt(101);
+        return new WinningProbability(probability);
+    }
+
+    static class WinningProbability {
+        private int probability;
+
+        public WinningProbability(int probability) {
+            this.probability = probability;
+        }
+
+        public int getProbability() {
+            return probability;
+        }
+    }
+}

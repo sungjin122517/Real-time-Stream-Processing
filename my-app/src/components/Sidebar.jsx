@@ -7,8 +7,8 @@ function Sidebar() {
 
     return (
         <div className="sidebar p-4 d-flex flex-column justify-content-center">
-        <div className="fixed-top p-5">
-            <h2 className="mb-4 text-white ">{currentDate}</h2>
+        <div className="fixed-top p-4">
+            <h1 className="mb-4 text-white ">{currentDate}</h1>
         </div>
         <div className="teams-container d-flex flex-column justify-content-center">
             <div className="teams d-flex align-items-center mb-4">

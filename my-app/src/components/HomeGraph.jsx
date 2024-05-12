@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
 import ApexCharts from 'apexcharts';
 
-const getRandomDataPoint = () => Math.floor(Math.random() * 201 - 100); // Generates random number between -100 and 100
+const getRandomDataPoint = () => Math.floor(Math.random() * 101);
 
-const ApexChart = () => {
+const HomeTeamChart = () => {
     const [series, setSeries] = useState([{ data: [] }]);
     const chartRef = useRef(null);
     const [lastDate, setLastDate] = useState(new Date().getTime()); // Track last timestamp
@@ -14,7 +14,7 @@ const ApexChart = () => {
         const newTimestamp = new Date().getTime(); // Get current timestamp
         setSeries(prevSeries => [{ data: [...prevSeries[0].data, { x: newTimestamp, y: newDataPoint }] }]);
         setLastDate(newTimestamp); // Update last timestamp
-    }, 1500);
+    }, 1000);
 
     // Cleanup interval on component unmount
     return () => clearInterval(interval);
@@ -58,11 +58,11 @@ const ApexChart = () => {
             type: 'datetime',
             // Set initial range to show a period of time
             min: lastDate - 30000, // 30 seconds ago
-            max: lastDate 
+            max: lastDate
         },
         yaxis: {
-            min: -100, 
-            max: 100, 
+            min: 0,
+            max: 100,
         },
         legend: {
             show: false
@@ -85,10 +85,10 @@ const ApexChart = () => {
     }, [series]);
 
     return (
-    <div style={{ height: '80vh' }}> {/* Set height to cover the whole page */}
+    <div style={{ height: '40vh' }}> {/* Set height to cover the whole page */}
         <div ref={chartRef}></div>
     </div>
     );
 };
 
-export default ApexChart;
+export default HomeTeamChart;

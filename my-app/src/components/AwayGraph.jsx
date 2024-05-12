@@ -15,7 +15,6 @@ const AwayTeamChart = ({teamData, teamID}) => {
             const newTimestamp = new Date().getTime(); // Get current timestamp
             setSeries(prevSeries => [{ data: [...prevSeries[0].data, { x: newTimestamp, y: newDataPoint }] }]);
             setLastDate(newTimestamp); // Update last timestamp
-            console.log("AWAY: ",teamData[0].awayTeamValue); //
         }, );
 
     // Cleanup interval on component unmount

@@ -15,7 +15,7 @@ const HomeTeamChart = ({teamData, teamID}) => {
             const newTimestamp = new Date().getTime(); // Get current timestamp
             setSeries(prevSeries => [{ data: [...prevSeries[0].data, { x: newTimestamp, y: newDataPoint }] }]);
             setLastDate(newTimestamp); // Update last timestamp
-            console.log("HOME: ",teamData[0].homeTeamValue); //
+            console.log("HOME: ", teamData[0].homeTeamValue);
         }, );
 
     // Cleanup interval on component unmount

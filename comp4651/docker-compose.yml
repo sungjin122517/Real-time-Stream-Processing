@@ -9,9 +9,7 @@ services:
       - POSTGRES_PASSWORD=postgres
       - POSTGRES_DB=postgres
   backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: backend:latest
     container_name: nba_match
     ports:
       - "8080:8080"

@@ -21,12 +21,14 @@ public class GameStatsService {
     private final GameStatsRepository gameStatsRepository;
     private final WinProbabilityRepository winProbabilityRepository;
 
-    public void adjustForRank(int gameStatId) {
-        GameStats gameStats = gameStatsRepository.findById(gameStatId);
+    public void adjustForRank(String gameStatId) {
+        GameStats gameStats = gameStatsRepository.findByGameid(gameStatId);
         WinProbability winProbability = new WinProbability();
 
-        int homeId = gameStats.getHomeTeam().getId();
-        int awayId = gameStats.getAwayTeam().getId();
+//        int homeId = gameStats.getHomeTeam().getId();
+//        int awayId = gameStats.getAwayTeam().getId();
+        int homeId = 1;
+        int awayId = 2;
 
         double homeRank = teamRepository.findById(homeId).getRank();
         double awayRank = teamRepository.findById(awayId).getRank();
@@ -65,12 +67,14 @@ public class GameStatsService {
 //        gameStatsRepository.save(gameStats);
 //    }
 
-    public void adjustForPlayerImportance(int gameStatId) {
-        GameStats gameStats = gameStatsRepository.findById(gameStatId);
+    public void adjustForPlayerImportance(String gameStatId) {
+        GameStats gameStats = gameStatsRepository.findByGameid(gameStatId);
         WinProbability lastWinProbability = winProbabilityRepository.findFirstByOrderByIdAsc();
 
-        int homeId = gameStats.getHomeTeam().getId();
-        int awayId = gameStats.getAwayTeam().getId();
+//        int homeId = gameStats.getHomeTeam().getId();
+//        int awayId = gameStats.getAwayTeam().getId();
+        int homeId = 1;
+        int awayId = 2;
 
         List<Player> homePlayers = playerRepository.findByTeamId(homeId);
         List<Player> awayPlayers = playerRepository.findByTeamId(awayId);
@@ -104,7 +108,7 @@ public class GameStatsService {
         int awayScore = gameStat.getAwayScore();
 
         double scoreDiff = homeScore - awayScore;
-        double adjustment = scoreDiff * 0.8;
+        double adjustment = scoreDiff * 0.7;
 
         double homeWinProb = firstWinProbability.getHomeWinProb() + adjustment;
         double awayWinProb = firstWinProbability.getAwayWinProb() - adjustment;
@@ -125,8 +129,8 @@ public class GameStatsService {
 //        GameStats gameStats = gameStatsRepository.findById(gameStatId);
         WinProbability firstWinProbability = winProbabilityRepository.findFirstByOrderByIdAsc();
 
-        int homeFouls = gameStat.getHomeFouls();
-        int awayFouls = gameStat.getAwayFouls();
+        int homeFouls = gameStat.getHomeFoul();
+        int awayFouls = gameStat.getAwayFoul();
 
         double foulsDiff = homeFouls - awayFouls;
         double adjustment = foulsDiff * (-0.5);

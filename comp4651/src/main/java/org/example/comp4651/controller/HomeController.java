@@ -12,7 +12,6 @@ import org.springframework.http.codec.ServerSentEvent;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import reactor.core.publisher.Flux;
 
 import java.time.Duration;
 import java.util.List;
@@ -37,17 +36,24 @@ public class HomeController {
 
     @GetMapping
     public WinProbabilityResponse getWinProbabilities() {
-        GameStats gameStat = gameStatsRepository.findFirstByOrderByIdAsc();
+        GameStats gameStat = gameStatsRepository.findFirstByOrderByGameidAsc();
 
-        if (gameStat.getSituation() == 1) {
+        if (gameStat.getSituation() == 1 || gameStat.getSituation() == 9) {
+//            System.out.println("foul@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@$$$$$$$$$$$$$$$$$$$$");
             gameStatsService.adjustForFouls(gameStat);
         }
-        else if (gameStat.getSituation() == 2) {
+        // else if gameStat is between 3 and 7 or 11 and 15
+        else if (gameStat.getSituation() >= 3 && gameStat.getSituation() <= 7 || gameStat.getSituation() >= 11 && gameStat.getSituation() <= 15) {
+//            System.out.println("score@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@$$$$$$$$$$$$$$$$$$$$");
             gameStatsService.adjustForScore(gameStat);
         }
 
         List<Double> winProbabilities = winProbabilityService.getWinProb();
         return new WinProbabilityResponse(winProbabilities.get(0), winProbabilities.get(1));
+
+//        double homeFoul = gameStat.getHomeFoul();
+//        double awayFoul = gameStat.getAwayFoul();
+//        return new WinProbabilityResponse(homeFoul, awayFoul);
     }
 
 //    public Flux<WinProbabilityResponse> getWinProbabilitiesStream() {

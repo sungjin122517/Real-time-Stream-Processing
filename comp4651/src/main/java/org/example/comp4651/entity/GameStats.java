@@ -7,16 +7,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "game_stats")
+@Table(name = "gamestats")
 public class GameStats {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private String gameid;
 
-    @ManyToOne
-    @JoinColumn(name = "team_home", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GameStats_HomeTeam"))
-    private Team homeTeam;
+//    @ManyToOne
+//    @JoinColumn(name = "team_home", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GameStats_HomeTeam"))
+//    private Team homeTeam;
 
 //    @Column(name = "home_win_prob")
 //    private double homeWinProb;
@@ -25,14 +25,14 @@ public class GameStats {
     private int homeScore;
 
     @Column(name = "home_foul")
-    private int homeFouls;
+    private int homeFoul;
 
 //    @Column(name = "home_importance_value")
 //    private double homeImportanceValue;
 
-    @ManyToOne
-    @JoinColumn(name = "team_away", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GameStats_AwayTeam"))
-    private Team awayTeam;
+//    @ManyToOne
+//    @JoinColumn(name = "team_away", referencedColumnName = "id", foreignKey = @ForeignKey(name = "FK_GameStats_AwayTeam"))
+//    private Team awayTeam;
 
 //    @Column(name = "away_win_prob")
 //    private double awayWinProb;
@@ -41,7 +41,7 @@ public class GameStats {
     private int awayScore;
 
     @Column(name = "away_foul")
-    private int awayFouls;
+    private int awayFoul;
 
 //    @Column(name = "away_importance_value")
 //    private double awayImportanceValue;

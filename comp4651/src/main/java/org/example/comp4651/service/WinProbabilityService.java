@@ -15,6 +15,11 @@ public class WinProbabilityService {
 
     public List<Double> getWinProb() {
         WinProbability winProb = winProbabilityRepository.findFirstByOrderByIdDesc();
-        return List.of(winProb.getHomeWinProb(), winProb.getAwayWinProb());
+        if (winProb == null) {
+            return List.of(50.0, 50.0);
+        } else {
+            return List.of(winProb.getHomeWinProb(), winProb.getAwayWinProb());
+        }
+
     }
 }

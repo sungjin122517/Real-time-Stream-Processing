@@ -35,15 +35,15 @@ const ParentComponent = () => {
         const fetchData = async () => {
             try {
                 // Fetch data from the backend
-                const response = await fetch("http://localhost:8080/api/winningProbability"); // Assuming this is the endpoint to fetch winning probability from the backend
+                const response = await fetch("http://localhost:8080/"); // Assuming this is the endpoint to fetch winning probability from the backend
                 if (!response.ok) {
                     throw new Error("Failed to fetch data from the server");
                 }
                 const homeTeamValue = await response.json();
                 const newData = {
                     timestamp: new Date().getTime(), // Current timestamp
-                    homeTeamValue: homeTeamValue["probability"], // Random value for home team
-                    awayTeamValue: 100 - homeTeamValue["probability"] // Random value for away team
+                    homeTeamValue: homeTeamValue["homeWinProbability"], // Random value for home team
+                    awayTeamValue: 100 - homeTeamValue["homeWinProbability"] // Random value for away team
                 };
                 
                 setTeamData([newData]);

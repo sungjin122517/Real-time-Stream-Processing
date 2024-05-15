@@ -1,4 +1,5 @@
 version: '3.8'
+
 services:
   zookeeper:
     image: confluentinc/cp-zookeeper:7.4.0
@@ -87,6 +88,14 @@ services:
     depends_on:
       - postgres
     restart: always
+    networks:
+      - my_network
+  
+  frontend:
+    image: frontend:latest
+    container_name: frontend
+    ports:
+      - "3000:80"  # Adjusted port mapping for frontend
     networks:
       - my_network
 

@@ -1,5 +1,5 @@
 # Use Node.js LTS version as base image
-FROM node:lts-alpine as build-stage
+FROM node:16.14.1-alpine as build-stage
 
 # Set working directory inside the container
 WORKDIR /app

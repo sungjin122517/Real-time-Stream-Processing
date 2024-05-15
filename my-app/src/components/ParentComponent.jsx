@@ -34,16 +34,20 @@ const ParentComponent = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                // Fetch data from the backend
                 const response = await fetch("http://localhost:8080/"); // Assuming this is the endpoint to fetch winning probability from the backend
                 if (!response.ok) {
                     throw new Error("Failed to fetch data from the server");
                 }
-                const homeTeamValue = await response.json();
+                const data = await response.json();
+                
+                // Extract home and away win probabilities from the response
+                const homeWinProbability = data.homeWinProbability;
+                const awayWinProbability = data.awayWinProbability;
+
                 const newData = {
                     timestamp: new Date().getTime(), // Current timestamp
-                    homeTeamValue: homeTeamValue["homeWinProbability"], // Random value for home team
-                    awayTeamValue: 100 - homeTeamValue["homeWinProbability"] // Random value for away team
+                    homeTeamValue: homeWinProbability, // Random value for home team
+                    awayTeamValue: 100 - homeWinProbability // Random value for away team
                 };
                 
                 setTeamData([newData]);

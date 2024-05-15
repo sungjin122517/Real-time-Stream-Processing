@@ -2,3 +2,14 @@
 
 
 kafka-console-consumer --topic game_updates --bootstrap-server broker:29092
+
+Steps
+
+1. cd my-app
+2. docker build -t frontend .
+3. cd ..
+4. cd comp4651
+5. docker build -t backend .
+6. cd ..
+7. docker compose up -d
+8. Access frontend at http://localhost:3000

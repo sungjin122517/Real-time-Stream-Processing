@@ -15,7 +15,7 @@ public class BackendApplication {
         SpringApplication.run(BackendApplication.class, args);
     }
 
-    @GetMapping("/api/winningProbability")
+    @GetMapping("/")
     public WinningProbability getWinningProbability() {
         // Generate a random winning probability (between 0 and 100)
         int probability = new Random().nextInt(101);
@@ -23,14 +23,14 @@ public class BackendApplication {
     }
 
     static class WinningProbability {
-        private int probability;
+        private int homeWinProbability;  // Changed field name to homeWinProbability
 
-        public WinningProbability(int probability) {
-            this.probability = probability;
+        public WinningProbability(int homeWinProbability) {
+            this.homeWinProbability = homeWinProbability;
         }
 
-        public int getProbability() {
-            return probability;
+        public int getHomeWinProbability() {
+            return homeWinProbability;
         }
     }
 }

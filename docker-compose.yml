@@ -67,7 +67,7 @@ services:
       - my_network
 
   python_app:
-    image: python_app_image:latest
+    image: python_app:latest
     container_name: python_app
     environment:
       - KAFKA_BOOTSTRAP_SERVERS=broker:29092
@@ -77,7 +77,7 @@ services:
       - my_network
 
   backend:
-    image: backend:latest
+    build: ./comp4651  # Specify the build context for backend
     container_name: nba_match
     ports:
       - "8080:8080"
@@ -92,7 +92,7 @@ services:
       - my_network
   
   frontend:
-    image: frontend:latest
+    build: ./my-app
     container_name: frontend
     ports:
       - "3000:80"  # Adjusted port mapping for frontend

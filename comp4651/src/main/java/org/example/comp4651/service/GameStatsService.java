@@ -47,11 +47,14 @@ public class GameStatsService {
         winProbabilityRepository.save(winProbability);
     }
 
-//    public void setPlayerImportance(int gameStatId) {
-//        GameStats gameStats = gameStatsRepository.findById(gameStatId);
+//    public void adjustForPlayerImportance(String gameStatId) {
+//        GameStats gameStats = gameStatsRepository.findByGameid(gameStatId);
+//        WinProbability lastWinProbability = winProbabilityRepository.findFirstByOrderByIdAsc();
 //
-//        int homeId = gameStats.getHomeTeam().getId();
-//        int awayId = gameStats.getAwayTeam().getId();
+////        int homeId = gameStats.getHomeTeam().getId();
+////        int awayId = gameStats.getAwayTeam().getId();
+//        int homeId = 1;
+//        int awayId = 2;
 //
 //        List<Player> homePlayers = playerRepository.findByTeamId(homeId);
 //        List<Player> awayPlayers = playerRepository.findByTeamId(awayId);
@@ -61,44 +64,21 @@ public class GameStatsService {
 //        // get the sum of importance value of away players who are playing
 //        double awayImportance = awayPlayers.stream().filter(Player::isPlaying).mapToDouble(Player::getImportanceValue).sum();
 //
-//        gameStats.setHomeImportanceValue(homeImportance);
-//        gameStats.setAwayImportanceValue(awayImportance);
+//        double importanceDiff = homeImportance - awayImportance;
+//        double adjustment = importanceDiff * 10;
 //
-//        gameStatsRepository.save(gameStats);
+//        double homeWinProb = lastWinProbability.getHomeWinProb() + adjustment;
+//        double awayWinProb = lastWinProbability.getAwayWinProb() - adjustment;
+//
+//        homeWinProb = normalizeProb(homeWinProb, awayWinProb).getFirst();
+//        awayWinProb = 100 - homeWinProb;
+//
+//        WinProbability winProbability = new WinProbability();
+//        winProbability.setHomeWinProb(homeWinProb);
+//        winProbability.setAwayWinProb(awayWinProb);
+//
+//        winProbabilityRepository.save(winProbability);
 //    }
-
-    public void adjustForPlayerImportance(String gameStatId) {
-        GameStats gameStats = gameStatsRepository.findByGameid(gameStatId);
-        WinProbability lastWinProbability = winProbabilityRepository.findFirstByOrderByIdAsc();
-
-//        int homeId = gameStats.getHomeTeam().getId();
-//        int awayId = gameStats.getAwayTeam().getId();
-        int homeId = 1;
-        int awayId = 2;
-
-        List<Player> homePlayers = playerRepository.findByTeamId(homeId);
-        List<Player> awayPlayers = playerRepository.findByTeamId(awayId);
-
-        // get the sum of importance value of home players who are playing
-        double homeImportance = homePlayers.stream().filter(Player::isPlaying).mapToDouble(Player::getImportanceValue).sum();
-        // get the sum of importance value of away players who are playing
-        double awayImportance = awayPlayers.stream().filter(Player::isPlaying).mapToDouble(Player::getImportanceValue).sum();
-
-        double importanceDiff = homeImportance - awayImportance;
-        double adjustment = importanceDiff * 10;
-
-        double homeWinProb = lastWinProbability.getHomeWinProb() + adjustment;
-        double awayWinProb = lastWinProbability.getAwayWinProb() - adjustment;
-
-        homeWinProb = normalizeProb(homeWinProb, awayWinProb).getFirst();
-        awayWinProb = 100 - homeWinProb;
-
-        WinProbability winProbability = new WinProbability();
-        winProbability.setHomeWinProb(homeWinProb);
-        winProbability.setAwayWinProb(awayWinProb);
-
-        winProbabilityRepository.save(winProbability);
-    }
 
     public void adjustForScore(GameStats gameStat) {
 //        GameStats gameStats = gameStatsRepository.findById(gameStatId);

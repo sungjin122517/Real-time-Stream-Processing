@@ -77,7 +77,7 @@ services:
       - my_network
 
   backend:
-    build: ./comp4651  # Specify the build context for backend
+    image: backend:latest  # Specify the build context for backend
     container_name: nba_match
     ports:
       - "8080:8080"
@@ -90,9 +90,9 @@ services:
     restart: always
     networks:
       - my_network
-  
+    
   frontend:
-    build: ./my-app
+    image: frontend:latest 
     container_name: frontend
     ports:
       - "3000:80"  # Adjusted port mapping for frontend

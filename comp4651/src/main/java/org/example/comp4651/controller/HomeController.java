@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/")
@@ -49,7 +50,8 @@ public class HomeController {
         }
 
         List<Double> winProbabilities = winProbabilityService.getWinProb();
-        return new WinProbabilityResponse(winProbabilities.get(0), winProbabilities.get(1));
+        double probabilityScore = winProbabilities.get(0) ;
+        return new WinProbabilityResponse(probabilityScore, 100-probabilityScore);
 
 //        double homeFoul = gameStat.getHomeFoul();
 //        double awayFoul = gameStat.getAwayFoul();

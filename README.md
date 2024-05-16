@@ -22,3 +22,5 @@
 - Email: jsung@connect.ust.hk
 - Session: L1
 - Contribution: Backend Algorithm design, implementation and containerization of respective parts
+
+## Final report pdf included in following repository

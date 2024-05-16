@@ -19,6 +19,6 @@
 
 - Student name: Sung Jin
 - SID: 20545240
-- Email: wscho@connect.ust.hk
+- Email: jsung@connect.ust.hk
 - Session: L1
 - Contribution: Backend Algorithm design, implementation and containerization of respective parts
